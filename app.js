@@ -20,7 +20,7 @@ const connectWallet = async () => {
 
         loadContractData();
     } else {
-        alert('Please install MetaMask to use this dApp!');
+        alert('Please install MetaMask to use this DApp!');
     }
 };
 
@@ -67,6 +67,11 @@ const loadContractData = async () => {
     const totalHolders = await ponziToken.methods.totalSupply().call(); // Assuming totalSupply equals total holders
     document.getElementById('totalHolders').innerText = totalHolders;
 
+    // Calculate and display cost on hover
+    setupMintButtonHover('mintPrice', mintPrice, 1);
+    setupMintButtonHover('mintPrice', mintPrice, 10);
+    setupMintButtonHover('mintPrice', mintPrice, 100);
+
     // Listening for JackpotWon events
     jackpot.events.JackpotWon({
         fromBlock: 'latest'
@@ -76,6 +81,24 @@ const loadContractData = async () => {
         addWinnerToTable(event.blockNumber, winner.user, winner.amount);
     })
     .on('error', console.error);
+};
+
+const setupMintButtonHover = (elementId, mintPrice, quantity) => {
+    const mintButton = document.querySelector(`.mint-button[onclick="mintToken(${quantity})"]`);
+    mintButton.setAttribute('data-cost', `Total Cost: ${calculateTotalCost(mintPrice, quantity)} OVER`);
+};
+
+const calculateTotalCost = (mintPrice, quantity) => {
+    let totalCost = 0;
+    let currentPrice = parseFloat(web3.utils.fromWei(mintPrice, 'ether'));
+    const priceIncreaseRate = 0.0002; // 0.02%
+
+    for (let i = 0; i < quantity; i++) {
+        totalCost += currentPrice;
+        currentPrice += currentPrice * priceIncreaseRate;
+    }
+
+    return totalCost.toFixed(6); // Return with 6 decimal places
 };
 
 const addWinnerToTable = (blockNumber, user, amount) => {
@@ -88,8 +111,8 @@ const addWinnerToTable = (blockNumber, user, amount) => {
 
 const mintToken = async (quantity) => {
     const mintPrice = await ponziToken.methods.mintPrice().call();
-    const totalCost = mintPrice * quantity;
-    await ponziToken.methods.mintToken(quantity).send({ from: account, value: totalCost });
+    const totalCost = calculateTotalCost(mintPrice, quantity);
+    await ponziToken.methods.mintToken(quantity).send({ from: account, value: web3.utils.toWei(totalCost, 'ether') });
     loadContractData();
 };
 
