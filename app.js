@@ -60,16 +60,23 @@ const loadContractData = async () => {
     const unclaimedRewards = await distribution.methods.getUnclaimedRewards(account).call();
     document.getElementById('unclaimedRewards').innerText = web3.utils.fromWei(unclaimedRewards.toString(), 'ether') + ' OVER';
 
-    // Load the latest jackpot winners (this would require an event log listener or a server-side implementation)
-    // Example:
-    const latestWinners = []; // Replace with logic to fetch recent winners
+    // Listening for JackpotWon events
+    jackpot.events.JackpotWon({
+        fromBlock: 'latest'
+    })
+    .on('data', (event) => {
+        const winner = event.returnValues;
+        addWinnerToTable(event.blockNumber, winner.user, winner.amount);
+    })
+    .on('error', console.error);
+};
+
+const addWinnerToTable = (blockNumber, user, amount) => {
     const jackpotWinnersTable = document.querySelector('#jackpotWinners tbody');
-    latestWinners.forEach(winner => {
-        const row = jackpotWinnersTable.insertRow();
-        row.insertCell(0).innerText = winner.blockNumber;
-        row.insertCell(1).innerText = winner.address;
-        row.insertCell(2).innerText = web3.utils.fromWei(winner.amount, 'ether') + ' OVER';
-    });
+    const row = jackpotWinnersTable.insertRow();
+    row.insertCell(0).innerText = blockNumber;
+    row.insertCell(1).innerText = user;
+    row.insertCell(2).innerText = web3.utils.fromWei(amount, 'ether') + ' OVER';
 };
 
 const mintToken = async (quantity) => {
