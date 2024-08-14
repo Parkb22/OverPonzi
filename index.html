@@ -3,76 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OverPonzi</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <title>OverPonzi DApp</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <header class="header">
-        <div class="logo-space">
-            <!-- Placeholder for your logo -->
-            <img src="logo.png" alt="OverPonzi Logo" id="logo" />
-        </div>
-        <h1>OverPonzi</h1>
-        <div id="wallet-container">
-            <button id="connectButton" class="orange" onclick="connectWallet()">Connect Wallet</button>
-            <button id="disconnectButton" class="red" onclick="disconnectWallet()" style="display: none;">Disconnect Wallet</button>
-        </div>
+    <header>
+        <div class="logo">OverPonzi</div>
+        <button id="connectWallet" class="connect-button">Connect Wallet</button>
     </header>
 
     <main>
-        <section class="jackpot-block neumorphism">
+        <section class="jackpot-section">
             <h2>🏆 Jackpot Pool</h2>
             <p id="jackpotAmount">Loading...</p>
-            <p>15% of OVER from mints are added to the Jackpot Pool</p>
-            <p>🥇 Gold Jackpot: 90% of Pool — 0.1% chance per mint</p>
-            <p>🥈 Silver Jackpot: 10% of Pool — 1% chance per mint</p>
-            <p>🥉 Bronze Jackpot: 1% of Pool — 10% chance per mint</p>
+            <p>Gold Jackpot 🥇 90% of Pool (1/1000 chance)</p>
+            <p>Silver Jackpot 🥈 10% of Pool (1/100 chance)</p>
+            <p>Bronze Jackpot 🥉 1% of Pool (1/10 chance)</p>
             <h3>Latest Winners</h3>
-            <button id="toggleWinnersButton" onclick="toggleWinners()">Show/Hide Winners</button>
-            <div id="winnersTableContainer" style="display: none;">
-                <table id="jackpotWinners">
+            <div id="latestWinners" class="collapsible">
+                <table>
                     <thead>
                         <tr>
                             <th>Block #</th>
-                            <th>Wallet</th>
-                            <th>Amount Won</th>
+                            <th>Address</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Latest winners will be added here -->
+                    <tbody id="winnersList">
+                        <!-- Latest winners will be appended here -->
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <section class="mint-block neumorphism">
+        <section class="mint-section">
             <h2>Current oPo Mint Price</h2>
-            <p class="large-text" id="mintPrice">Loading...</p>
-            <p>Mint Price increases by 0.02% per oPo minted</p>
+            <p id="mintPrice">Loading...</p>
             <p>Total Minted: <span id="totalMinted">Loading...</span></p>
             <p>Remaining Tokens: <span id="remainingTokens">Loading...</span></p>
-            <button class="mint-button" onclick="mintToken(1)">Mint 1 oPo</button>
-            <button class="mint-button" onclick="mintToken(10)">Mint 10 oPo</button>
-            <button class="mint-button" onclick="mintToken(100)">Mint 100 oPo</button>
+            <button id="mint1">Mint 1 oPo</button>
+            <button id="mint10">Mint 10 oPo</button>
+            <button id="mint100">Mint 100 oPo</button>
         </section>
 
-        <section class="rewards-block neumorphism">
+        <section class="rewards-section">
             <h2>Your Rewards</h2>
-            <p>Total Earned: <span id="totalRewards">Loading...</span></p>
+            <p>Total Earned Rewards: <span id="totalRewards">Loading...</span></p>
             <p>Unclaimed Rewards: <span id="unclaimedRewards">Loading...</span></p>
-            <p>75% of OVER from mints are automatically distributed to oPo holders</p>
-            <button onclick="claimRewards()">Claim Rewards</button>
+            <button id="claimRewards">Claim Rewards</button>
         </section>
 
-        <section class="info-block neumorphism">
+        <section class="info-section">
             <h2>oPo Information</h2>
-            <p>oPo Contract Address: <span id="contractAddress">Loading...</span></p>
+            <p>oPo Contract Address: <a href="https://dolphin.view.over.network/address/0x9a406Dee8b16080A5D3C2772FCC7a9FC3f20fB38" target="_blank">0x9a406Dee8b16080A5D3C2772FCC7a9FC3f20fB38</a></p>
             <p>Total Holders: <span id="totalHolders">Loading...</span></p>
         </section>
     </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
-    <script src="app.js"></script>
 </body>
 </html>
