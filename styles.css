@@ -1,74 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OverPonzi</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header class="header">
-        <div class="logo-space">
-            <!-- Placeholder for your logo -->
-            <img src="logo.png" alt="OverPonzi Logo" id="logo" />
-        </div>
-        <h1>OverPonzi</h1>
-        <div id="wallet-container">
-            <button id="connectButton" class="orange" onclick="connectWallet()">Connect Wallet</button>
-            <button id="disconnectButton" class="red" onclick="disconnectWallet()" style="display: none;">Disconnect Wallet</button>
-        </div>
-    </header>
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-    <main>
-        <section class="jackpot-block neumorphism">
-            <h2>🏆 Jackpot Pool</h2>
-            <p id="jackpotAmount">Loading...</p>
-            <p>15% of OVER from mints are added to the Jackpot Pool</p>
-            <p>🥇 Gold Jackpot: 90% of Pool — 0.1% chance per mint</p>
-            <p>🥈 Silver Jackpot: 10% of Pool — 1% chance per mint</p>
-            <p>🥉 Bronze Jackpot: 1% of Pool — 10% chance per mint</p>
-            <h3>Latest Winners</h3>
-            <table id="jackpotWinners">
-                <thead>
-                    <tr>
-                        <th>Block #</th>
-                        <th>Wallet</th>
-                        <th>Amount Won</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Latest winners will be added here -->
-                </tbody>
-            </table>
-        </section>
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 20px 20px 60px #d1d1d1, -20px -20px 60px #ffffff;
+}
 
-        <section class="mint-block neumorphism">
-            <h2>Current oPo Mint Price</h2>
-            <p class="large-text" id="mintPrice">Loading...</p>
-            <p>Mint Price increases by 0.02% per oPo minted</p>
-            <p>Total Minted: <span id="totalMinted">Loading...</span></p>
-            <p>Remaining Tokens: <span id="remainingTokens">Loading...</span></p>
-            <button onclick="mintToken(1)">Mint 1 oPo</button>
-            <button onclick="mintToken(10)">Mint 10 oPo</button>
-        </section>
+.logo-space {
+    flex: 0 0 auto;
+}
 
-        <section class="rewards-block neumorphism">
-            <h2>Your Rewards</h2>
-            <p>Total Earned: <span id="totalRewards">Loading...</span></p>
-            <p>Unclaimed Rewards: <span id="unclaimedRewards">Loading...</span></p>
-            <p>75% of OVER from mints are automatically distributed to oPo holders</p>
-            <button onclick="claimRewards()">Claim Rewards</button>
-        </section>
+#logo {
+    width: 50px; /* Adjust based on your logo size */
+}
 
-        <section class="info-block neumorphism">
-            <h2>oPo Information</h2>
-            <p>oPo Contract Address: <span id="contractAddress">Loading...</span></p>
-            <p>Total Holders: <span id="totalHolders">Loading...</span></p>
-        </section>
-    </main>
+.header h1 {
+    flex-grow: 1;
+    margin: 0;
+    text-align: center;
+    font-weight: 600;
+    color: #ff5722;
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+#wallet-container {
+    flex: 0 0 auto;
+    position: relative;
+}
+
+#connectButton, #disconnectButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff;
+    transition: background-color 0.3s;
+}
+
+#connectButton.orange {
+    background-color: #ff9800;
+}
+
+#disconnectButton.red {
+    background-color: #f44336;
+}
+
+#connectButton.orange:hover, #disconnectButton.red:hover {
+    background-color: #ff7043;
+}
+
+#wallet-container button:hover::after {
+    content: attr(data-wallet);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.main {
+    width: 100%;
+    max-width: 800px;
+}
+
+.neumorphism {
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 20px 20px 60px #d1d1d1, -20px -20px 60px #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.large-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ff5722;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ff9800;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ff7043;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff;
+}
+
+table th, table td {
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+}
+
+p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+h2, h3 {
+    color: #ff5722;
+}
