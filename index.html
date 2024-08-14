@@ -4,9 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OverPonzi DApp</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #333; /* Standard text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff; /* Blue header */
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .connect-button {
+            background-color: #ff7f00; /* Orange button */
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .connect-button.connected {
+            background-color: #ff4d4d; /* Red color when connected */
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto; /* Center content and give top/bottom margin */
+            padding: 1rem;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #007bff; /* Blue headings */
+            font-size: 1.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .collapsible {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
-    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
@@ -61,5 +153,87 @@
             <p>Total Holders: <span id="totalHolders">Loading...</span></p>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                const web3 = new Web3(window.ethereum);
+                const overPonziAbi = await fetch('OverPonzi.json').then(response => response.json());
+                const distributionAbi = await fetch('Distribution.json').then(response => response.json());
+
+                const overPonziAddress = '0x9a406Dee8b16080A5D3C2772FCC7a9FC3f20fB38';
+                const distributionAddress = '0xb764D4992df9E36F697c4538cE07F3c5024DcC46';
+
+                const overPonzi = new web3.eth.Contract(overPonziAbi, overPonziAddress);
+                const distribution = new web3.eth.Contract(distributionAbi, distributionAddress);
+
+                let accounts = [];
+
+                const connectWalletButton = document.getElementById('connectWallet');
+                const mintPriceElement = document.getElementById('mintPrice');
+                const totalMintedElement = document.getElementById('totalMinted');
+                const remainingTokensElement = document.getElementById('remainingTokens');
+                const totalRewardsElement = document.getElementById('totalRewards');
+                const unclaimedRewardsElement = document.getElementById('unclaimedRewards');
+                const totalHoldersElement = document.getElementById('totalHolders');
+
+                connectWalletButton.addEventListener('click', async () => {
+                    try {
+                        accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        connectWalletButton.textContent = 'Connected';
+                        connectWalletButton.classList.add('connected');
+                    } catch (error) {
+                        console.error("User denied wallet connection", error);
+                        alert("Please connect your wallet to continue.");
+                    }
+                });
+
+                async function loadContractData() {
+                    try {
+                        const mintPrice = await overPonzi.methods.mintPrice().call();
+                        const totalMinted = await overPonzi.methods.totalSupply().call();
+                        const maxSupply = await overPonzi.methods.MAX_SUPPLY().call();
+                        const totalHolders = await distribution.methods.holders.length().call();
+
+                        mintPriceElement.textContent = `${web3.utils.fromWei(mintPrice, 'ether')} OVER`;
+                        totalMintedElement.textContent = totalMinted;
+                        remainingTokensElement.textContent = maxSupply - totalMinted;
+                        totalHoldersElement.textContent = totalHolders;
+                    } catch (error) {
+                        console.error("Failed to load contract data", error);
+                    }
+                }
+
+                async function mintTokens(quantity) {
+                    try {
+                        const cost = await overPonzi.methods.calculateTotalCost(quantity).call();
+                        await overPonzi.methods.mintToken(quantity).send({ from: accounts[0], value: cost });
+                        loadContractData(); // Reload data after minting
+                    } catch (error) {
+                        console.error("Failed to mint tokens", error);
+                        alert("Minting failed. Please try again.");
+                    }
+                }
+
+                document.getElementById('mint1').addEventListener('click', () => mintTokens(1));
+                document.getElementById('mint10').addEventListener('click', () => mintTokens(10));
+                document.getElementById('mint100').addEventListener('click', () => mintTokens(100));
+
+                document.getElementById('claimRewards').addEventListener('click', async () => {
+                    try {
+                        await distribution.methods.claimRewards().send({ from: accounts[0] });
+                        loadContractData(); // Reload data after claiming rewards
+                    } catch (error) {
+                        console.error("Failed to claim rewards", error);
+                        alert("Claiming rewards failed. Please try again.");
+                    }
+                });
+
+                loadContractData(); // Initial load
+            } else {
+                alert("MetaMask is not installed. Please install MetaMask to use this DApp.");
+            }
+        });
+    </script>
 </body>
 </html>
