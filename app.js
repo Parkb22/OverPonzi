@@ -10,9 +10,13 @@ const connectWallet = async () => {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
         const accounts = await web3.eth.getAccounts();
         account = accounts[0];
-        document.getElementById('account').innerText = account;
-        document.getElementById('connectButton').style.display = 'none';
-        document.getElementById('disconnectButton').style.display = 'block';
+
+        const connectButton = document.getElementById('connectButton');
+        connectButton.style.display = 'none';
+        const disconnectButton = document.getElementById('disconnectButton');
+        disconnectButton.style.display = 'block';
+        disconnectButton.setAttribute('data-wallet', account);
+        disconnectButton.classList.add('red');
 
         loadContractData();
     } else {
@@ -22,7 +26,6 @@ const connectWallet = async () => {
 
 const disconnectWallet = () => {
     account = null;
-    document.getElementById('account').innerText = 'Connect your wallet';
     document.getElementById('connectButton').style.display = 'block';
     document.getElementById('disconnectButton').style.display = 'none';
 };
