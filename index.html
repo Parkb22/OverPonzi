@@ -3,42 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ponzi DApp</title>
+    <title>OverPonzi</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="header">
-        <h1>Ponzi DApp</h1>
+        <div class="logo-space">
+            <!-- Placeholder for your logo -->
+            <img src="logo.png" alt="OverPonzi Logo" id="logo" />
+        </div>
+        <h1>OverPonzi</h1>
         <div id="wallet-container">
-            <span id="account">Connect your wallet</span>
-            <button id="connectButton" onclick="connectWallet()">Connect Wallet</button>
-            <button id="disconnectButton" onclick="disconnectWallet()" style="display: none;">Disconnect</button>
+            <button id="connectButton" class="orange" onclick="connectWallet()">Connect Wallet</button>
+            <button id="disconnectButton" class="red" onclick="disconnectWallet()" style="display: none;">Disconnect Wallet</button>
         </div>
     </header>
 
     <main>
-      <section class="jackpot-block neumorphism">
-    <h2>Jackpot Pool</h2>
-    <p id="jackpotAmount">Loading...</p>
-    <p>🥇 Gold Jackpot: 90% of Pool — 0.1% chance per mint</p>
-    <p>🥈 Silver Jackpot: 10% of Pool — 1% chance per mint</p>
-    <p>🥉 Bronze Jackpot: 1% of Pool — 10% chance per mint</p>
-    <table id="jackpotWinners">
-        <thead>
-            <tr>
-                <th>Block #</th>
-                <th>Wallet</th>
-                <th>Amount Won</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Latest winners will be added here -->
-        </tbody>
-    </table>
-</section>
+        <section class="jackpot-block neumorphism">
+            <h2>Jackpot Pool</h2>
+            <p id="jackpotAmount">Loading...</p>
+            <p>🥇 Gold Jackpot: 90% of Pool — 0.1% chance per mint</p>
+            <p>🥈 Silver Jackpot: 10% of Pool — 1% chance per mint</p>
+            <p>🥉 Bronze Jackpot: 1% of Pool — 10% chance per mint</p>
+            <table id="jackpotWinners">
+                <thead>
+                    <tr>
+                        <th>Block #</th>
+                        <th>Wallet</th>
+                        <th>Amount Won</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Latest winners will be added here -->
+                </tbody>
+            </table>
+        </section>
+
         <section class="mint-block neumorphism">
-            <h2>Mint Tokens</h2>
+            <h2>CURRENT OPO MINT PRICE</h2>
             <p class="large-text" id="mintPrice">Loading...</p>
             <p>Total Minted: <span id="totalMinted">Loading...</span></p>
             <p>Remaining Tokens: <span id="remainingTokens">Loading...</span></p>
