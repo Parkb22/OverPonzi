@@ -29,18 +29,21 @@
             <p>🥈 Silver Jackpot: 10% of Pool — 1% chance per mint</p>
             <p>🥉 Bronze Jackpot: 1% of Pool — 10% chance per mint</p>
             <h3>Latest Winners</h3>
-            <table id="jackpotWinners">
-                <thead>
-                    <tr>
-                        <th>Block #</th>
-                        <th>Wallet</th>
-                        <th>Amount Won</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Latest winners will be added here -->
-                </tbody>
-            </table>
+            <button id="toggleWinnersButton" onclick="toggleWinners()">Show/Hide Winners</button>
+            <div id="winnersTableContainer" style="display: none;">
+                <table id="jackpotWinners">
+                    <thead>
+                        <tr>
+                            <th>Block #</th>
+                            <th>Wallet</th>
+                            <th>Amount Won</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Latest winners will be added here -->
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section class="mint-block neumorphism">
