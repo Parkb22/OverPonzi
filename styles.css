@@ -1,19 +1,19 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #f8f9fa; /* Light gray background */
+    color: #333; /* Standard text color */
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #007bff;
+    background-color: #007bff; /* Blue header */
     color: white;
     padding: 1rem;
-    text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
@@ -22,47 +22,46 @@ header {
 }
 
 .connect-button {
-    background-color: #ff7f00;
+    background-color: #ff7f00; /* Orange button */
     border: none;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
 }
 
 .connect-button.connected {
-    background-color: #ff4d4d;
+    background-color: #ff4d4d; /* Red color when connected */
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 2rem;
+    max-width: 800px;
+    margin: 2rem auto; /* Center content and give top/bottom margin */
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 section {
-    background: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin: 1rem 0;
-    width: 100%;
-    max-width: 600px;
+    margin-bottom: 2rem;
 }
 
 h2 {
     margin-top: 0;
-    color: #007bff;
+    color: #007bff; /* Blue headings */
+    font-size: 1.25rem;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 1rem;
 }
 
 th, td {
-    padding: 0.5rem;
+    padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
@@ -72,9 +71,10 @@ button {
     border: none;
     color: white;
     padding: 0.5rem 1rem;
-    margin: 0.5rem;
+    margin: 0.5rem 0;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
 }
 
 button:hover {
@@ -84,4 +84,9 @@ button:hover {
 .collapsible {
     max-height: 200px;
     overflow-y: auto;
+}
+
+p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
 }
