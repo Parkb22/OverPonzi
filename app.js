@@ -98,7 +98,16 @@ const calculateTotalCost = (mintPrice, quantity) => {
         currentPrice += currentPrice * priceIncreaseRate;
     }
 
-    return totalCost.toFixed(6); // Return with 6 decimal places
+    return totalCost.toFixed(7); // Return with 7 decimal places
+};
+
+const toggleWinners = () => {
+    const winnersTableContainer = document.getElementById('winnersTableContainer');
+    if (winnersTableContainer.style.display === 'none') {
+        winnersTableContainer.style.display = 'block';
+    } else {
+        winnersTableContainer.style.display = 'none';
+    }
 };
 
 const addWinnerToTable = (blockNumber, user, amount) => {
