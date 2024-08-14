@@ -60,6 +60,13 @@ const loadContractData = async () => {
     const unclaimedRewards = await distribution.methods.getUnclaimedRewards(account).call();
     document.getElementById('unclaimedRewards').innerText = web3.utils.fromWei(unclaimedRewards.toString(), 'ether') + ' OVER';
 
+    // Set oPo Contract Information
+    document.getElementById('contractAddress').innerText = ponziTokenAddress;
+
+    // Get total holders
+    const totalHolders = await ponziToken.methods.totalSupply().call(); // Assuming totalSupply equals total holders
+    document.getElementById('totalHolders').innerText = totalHolders;
+
     // Listening for JackpotWon events
     jackpot.events.JackpotWon({
         fromBlock: 'latest'
