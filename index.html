@@ -22,11 +22,12 @@
 
     <main>
         <section class="jackpot-block neumorphism">
-            <h2>Jackpot Pool</h2>
+            <h2>🏆 Jackpot Pool</h2>
             <p id="jackpotAmount">Loading...</p>
             <p>🥇 Gold Jackpot: 90% of Pool — 0.1% chance per mint</p>
             <p>🥈 Silver Jackpot: 10% of Pool — 1% chance per mint</p>
             <p>🥉 Bronze Jackpot: 1% of Pool — 10% chance per mint</p>
+            <h3>Latest Winners</h3>
             <table id="jackpotWinners">
                 <thead>
                     <tr>
@@ -42,12 +43,12 @@
         </section>
 
         <section class="mint-block neumorphism">
-            <h2>CURRENT OPO MINT PRICE</h2>
+            <h2>Current oPo Mint Price</h2>
             <p class="large-text" id="mintPrice">Loading...</p>
             <p>Total Minted: <span id="totalMinted">Loading...</span></p>
             <p>Remaining Tokens: <span id="remainingTokens">Loading...</span></p>
-            <button onclick="mintToken(1)">Mint 1 Token</button>
-            <button onclick="mintToken(10)">Mint 10 Tokens</button>
+            <button onclick="mintToken(1)">Mint 1 oPo</button>
+            <button onclick="mintToken(10)">Mint 10 oPo</button>
         </section>
 
         <section class="rewards-block neumorphism">
@@ -56,9 +57,16 @@
             <p>Unclaimed Rewards: <span id="unclaimedRewards">Loading...</span></p>
             <button onclick="claimRewards()">Claim Rewards</button>
         </section>
+
+        <section class="info-block neumorphism">
+            <h2>oPo Information</h2>
+            <p>oPo Contract Address: <span id="contractAddress">Loading...</span></p>
+            <p>Total Holders: <span id="totalHolders">Loading...</span></p>
+        </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
+
