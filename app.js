@@ -33,9 +33,9 @@ const disconnectWallet = () => {
 const loadContractData = async () => {
     const networkId = await web3.eth.net.getId();
 
-    const ponziTokenAddress = 'YOUR_PONZI_TOKEN_CONTRACT_ADDRESS'; // Replace with your contract address
-    const jackpotAddress = 'YOUR_JACKPOT_CONTRACT_ADDRESS'; // Replace with your contract address
-    const distributionAddress = 'YOUR_DISTRIBUTION_CONTRACT_ADDRESS'; // Replace with your contract address
+    const ponziTokenAddress = '0xdDA42716c028293244ec74D9e78bb7E9c989A3D7'; // Replace with your contract address
+    const jackpotAddress = '0x94cc7c790adcf532aa8b9f816575dc3e964edb71'; // Replace with your contract address
+    const distributionAddress = '0x8c81C7C698b0f73574600030C3B5F79264a5489A'; // Replace with your contract address
 
     ponziToken = new web3.eth.Contract(PonziTokenABI, ponziTokenAddress);
     jackpot = new web3.eth.Contract(JackpotABI, jackpotAddress);
