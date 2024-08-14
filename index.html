@@ -4,17 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ponzi DApp</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <header class="header">
         <h1>Ponzi DApp</h1>
-        <p>Account: <span id="account">Loading...</span></p>
-        <p>Total Supply: <span id="totalSupply">Loading...</span></p>
-        <p>Mint Price: <span id="mintPrice">Loading...</span> OVER</p>
-        <p>Your Rewards: <span id="rewards">Loading...</span> OVER</p>
-        <button id="mintButton">Mint Token</button>
-    </div>
+        <div id="wallet-container">
+            <span id="account">Connect your wallet</span>
+            <button id="connectButton" onclick="connectWallet()">Connect Wallet</button>
+            <button id="disconnectButton" onclick="disconnectWallet()" style="display: none;">Disconnect</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="jackpot-block neumorphism">
+            <h2>Jackpot Pool</h2>
+            <p id="jackpotAmount">Loading...</p>
+            <p>Win up to 90% of the jackpot with a 1/1000 chance!</p>
+            <table id="jackpotWinners">
+                <thead>
+                    <tr>
+                        <th>Block #</th>
+                        <th>Wallet</th>
+                        <th>Amount Won</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Latest winners will be added here -->
+                </tbody>
+            </table>
+        </section>
+
+        <section class="mint-block neumorphism">
+            <h2>Mint Tokens</h2>
+            <p class="large-text" id="mintPrice">Loading...</p>
+            <p>Total Minted: <span id="totalMinted">Loading...</span></p>
+            <p>Remaining Tokens: <span id="remainingTokens">Loading...</span></p>
+            <button onclick="mintToken(1)">Mint 1 Token</button>
+            <button onclick="mintToken(10)">Mint 10 Tokens</button>
+        </section>
+
+        <section class="rewards-block neumorphism">
+            <h2>Your Rewards</h2>
+            <p>Total Earned: <span id="totalRewards">Loading...</span></p>
+            <p>Unclaimed Rewards: <span id="unclaimedRewards">Loading...</span></p>
+            <button onclick="claimRewards()">Claim Rewards</button>
+        </section>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
     <script src="app.js"></script>
